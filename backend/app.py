@@ -60,7 +60,8 @@ def analyze():
         "matched_skills": result["matched"],
         "missing_skills": result["missing"],
         "resume_skills": list(resume_skills.keys()),
-        "jd_skills": list(jd_skills.keys())
+        "jd_skills": list(jd_skills.keys()),
+        "resume_filename": resume_file.filename
     })
 
 # Load careers data once at startup

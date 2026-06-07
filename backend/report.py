@@ -3,9 +3,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, Table, TableStyle
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+from reportlab.lib.enums import TA_CENTER
 import io
 from datetime import datetime
+
 
 def generate_report(data):
     buffer = io.BytesIO()
@@ -13,15 +14,12 @@ def generate_report(data):
     doc = SimpleDocTemplate(
         buffer,
         pagesize=A4,
-        topMargin=0.6*inch,
-        bottomMargin=0.8*inch,
-        leftMargin=0.7*inch,
-        rightMargin=0.7*inch
+        topMargin=0.6 * inch,
+        bottomMargin=0.8 * inch,
+        leftMargin=0.7 * inch,
+        rightMargin=0.7 * inch
     )
 
-    styles = getSampleStyleSheet()
-
-    # Custom styles
     title_style = ParagraphStyle('title',
         fontSize=22, fontName='Helvetica-Bold',
         textColor=colors.HexColor('#1e3a5f'),
@@ -59,6 +57,12 @@ def generate_report(data):
     story.append(Paragraph("SkillMap", title_style))
     story.append(Spacer(1, 14))
     story.append(Paragraph("Resume Intelligence & Career Path Report", sub_style))
+    story.append(Spacer(1, 6))
+
+    # Candidate name from filename
+    filename = data.get("resume_filename", "Resume")
+    name = filename.replace(".pdf", "").replace("_", " ").replace("-", " ").title()
+    story.append(Paragraph({name}, sub_style))
     story.append(Paragraph(
         f"Generated on {datetime.now().strftime('%d %B %Y, %I:%M %p')}",
         sub_style
@@ -118,7 +122,7 @@ def generate_report(data):
         spaceBefore=10, spaceAfter=10
     ))
 
-    # Career Readiness
+    # Career Readiness Table
     careers = data.get("careers", [])
     if careers:
         story.append(Paragraph("Career Readiness", section_style))
@@ -133,19 +137,17 @@ def generate_report(data):
                 status
             ])
 
-        table = Table(table_data, colWidths=[
-            2.2*inch, 1.4*inch, 1*inch, 1*inch
-        ])
+        table = Table(table_data, colWidths=[2.2*inch, 1.4*inch, 1*inch, 1*inch])
         table.setStyle(TableStyle([
-            ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#1e3a5f')),
-            ('TEXTCOLOR', (0,0), (-1,0), colors.white),
-            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0,0), (-1,-1), 9),
-            ('ROWBACKGROUNDS', (0,1), (-1,-1),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e3a5f')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 9),
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1),
              [colors.HexColor('#f8fafc'), colors.white]),
-            ('GRID', (0,0), (-1,-1), 0.3, colors.HexColor('#dddddd')),
-            ('PADDING', (0,0), (-1,-1), 6),
-            ('ALIGN', (2,0), (3,-1), 'CENTER'),
+            ('GRID', (0, 0), (-1, -1), 0.3, colors.HexColor('#dddddd')),
+            ('PADDING', (0, 0), (-1, -1), 6),
+            ('ALIGN', (2, 0), (3, -1), 'CENTER'),
         ]))
         story.append(table)
         story.append(Spacer(1, 10))
@@ -155,13 +157,10 @@ def generate_report(data):
         story.append(Paragraph("Skill Gap Roadmap", section_style))
         for c in careers[:3]:
             if c.get("roadmap"):
-                story.append(Paragraph(
-                    f"<b>{c['role']}</b>",
-                    body_style
-                ))
+                story.append(Paragraph(f"<b>{c['role']}</b>", body_style))
                 for item in c["roadmap"][:2]:
                     story.append(Paragraph(
-                        f"  • {item['skill']} - {item['path']}",
+                        f"  - {item['skill']} - {item['path']}",
                         small_style
                     ))
 
@@ -172,11 +171,8 @@ def generate_report(data):
         spaceAfter=6
     ))
 
-    # Footer — same as website
-    story.append(Paragraph(
-        "© SkillMap | Developed by Mekh",
-        footer_style
-    ))
+    # Footer
+    story.append(Paragraph("© SkillMap | Developed by Mekh", footer_style))
 
     doc.build(story)
     buffer.seek(0)

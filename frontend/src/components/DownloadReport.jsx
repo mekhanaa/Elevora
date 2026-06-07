@@ -10,6 +10,7 @@ export default function DownloadReport({ result, careers }) {
           matched_skills: result.matched_skills,
           missing_skills: result.missing_skills,
           resume_skills: result.resume_skills,
+          resume_filename: result.resume_filename,
           careers: careers
         },
         { responseType: "blob" }
