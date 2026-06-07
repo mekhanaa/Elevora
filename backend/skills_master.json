@@ -1,0 +1,38 @@
+[
+  {
+    "category": "Programming",
+    "skills": ["Python", "Java", "C", "C++", "JavaScript", "R"],
+    "aliases": {
+      "Python": ["py", "python3"],
+      "JavaScript": ["js", "es6"]
+    }
+  },
+  {
+    "category": "Web Development",
+    "skills": ["React", "Flask", "Django", "FastAPI", "HTML", "CSS", "Node.js"]
+  },
+  {
+    "category": "Database",
+    "skills": ["SQL", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Oracle"]
+  },
+  {
+    "category": "Data Science",
+    "skills": ["Pandas", "NumPy", "Matplotlib", "Scikit-learn", "Machine Learning", "Deep Learning", "Statistics"]
+  },
+  {
+    "category": "Tools",
+    "skills": ["Git", "GitHub", "Docker", "Linux", "Postman", "VS Code"]
+  },
+  {
+    "category": "Cloud",
+    "skills": ["AWS", "Azure", "GCP", "Heroku", "Render"]
+  },
+  {
+    "category": "Soft Skills",
+    "skills": ["Communication", "Leadership", "Teamwork", "Problem Solving", "Time Management"]
+  },
+  {
+    "category": "Domain",
+    "skills": ["Data Analysis", "Web Scraping", "REST API", "Agile", "OOP", "DSA"]
+  }
+]

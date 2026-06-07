@@ -1,0 +1,107 @@
+[
+  {
+    "role": "Data Analyst",
+    "category": "Data",
+    "required_skills": ["Python", "SQL", "Pandas", "Matplotlib", "Excel", "Statistics", "Data Analysis"],
+    "good_to_have": ["Power BI", "Tableau", "NumPy"],
+    "learn_path": {
+      "Pandas": "Kaggle Pandas course — 3 days",
+      "SQL": "SQLZoo free course - 1 week",
+      "Statistics": "Khan Academy Statistics - 2 weeks",
+      "Matplotlib": "Matplotlib docs + practice - 3 days",
+      "Power BI": "Microsoft Learn Power BI - 1 week",
+      "Tableau": "Tableau Public tutorials - 1 week"
+    }
+  },
+  {
+    "role": "Data Scientist",
+    "category": "Data",
+    "required_skills": ["Python", "Machine Learning", "Pandas", "NumPy", "Statistics", "Scikit-learn", "SQL"],
+    "good_to_have": ["Deep Learning", "TensorFlow", "NLP"],
+    "learn_path": {
+      "Machine Learning": "Andrew Ng ML course - 4 weeks",
+      "Scikit-learn": "Scikit-learn docs - 1 week",
+      "NumPy": "NumPy quickstart - 3 days",
+      "Statistics": "Khan Academy Statistics - 2 weeks",
+      "Deep Learning": "fast.ai course - 6 weeks",
+      "TensorFlow": "TensorFlow tutorials - 3 weeks"
+    }
+  },
+  {
+    "role": "Python Developer",
+    "category": "Development",
+    "required_skills": ["Python", "Flask", "REST API", "SQL", "Git", "OOP"],
+    "good_to_have": ["Django", "Docker", "PostgreSQL"],
+    "learn_path": {
+      "Flask": "Flask mega tutorial - 1 week",
+      "REST API": "REST API with Flask - 3 days",
+      "OOP": "Python OOP - 4 days",
+      "Django": "Django official tutorial - 1 week",
+      "Docker": "Docker getting started - 4 days"
+    }
+  },
+  {
+    "role": "Full Stack Developer",
+    "category": "Development",
+    "required_skills": ["React", "JavaScript", "Python", "Flask", "SQL", "Git", "HTML", "CSS"],
+    "good_to_have": ["Node.js", "MongoDB", "Docker"],
+    "learn_path": {
+      "React": "React official docs - 2 weeks",
+      "JavaScript": "javascript.info - 3 weeks",
+      "Node.js": "Node.js crash course - 1 week",
+      "MongoDB": "MongoDB University free - 1 week",
+      "Docker": "Docker getting started - 4 days"
+    }
+  },
+  {
+    "role": "ML Engineer",
+    "category": "AI/ML",
+    "required_skills": ["Python", "Machine Learning", "Deep Learning", "Scikit-learn", "NumPy", "Git", "Linux"],
+    "good_to_have": ["TensorFlow", "PyTorch", "Docker", "AWS"],
+    "learn_path": {
+      "Deep Learning": "fast.ai course - 6 weeks",
+      "TensorFlow": "TensorFlow tutorials - 3 weeks",
+      "PyTorch": "PyTorch official tutorials - 3 weeks",
+      "Docker": "Docker getting started - 4 days",
+      "AWS": "AWS Cloud Practitioner - 3 weeks",
+      "Linux": "Linux command line basics - 1 week"
+    }
+  },
+  {
+    "role": "Backend Developer",
+    "category": "Development",
+    "required_skills": ["Python", "SQL", "REST API", "Git", "Flask", "OOP", "Linux"],
+    "good_to_have": ["Docker", "PostgreSQL", "Redis", "AWS"],
+    "learn_path": {
+      "Linux": "Linux command line basics - 1 week",
+      "Docker": "Docker getting started - 4 days",
+      "PostgreSQL": "PostgreSQL tutorial - 1 week",
+      "Redis": "Redis crash course - 3 days",
+      "AWS": "AWS Cloud Practitioner - 3 weeks"
+    }
+  },
+  {
+    "role": "Data Engineer",
+    "category": "Data",
+    "required_skills": ["Python", "SQL", "Pandas", "Linux", "Git", "Database"],
+    "good_to_have": ["AWS", "Docker", "Spark", "Airflow"],
+    "learn_path": {
+      "Spark": "Spark with Python - 2 weeks",
+      "Airflow": "Apache Airflow tutorial - 1 week",
+      "AWS": "AWS Cloud Practitioner - 3 weeks",
+      "Docker": "Docker getting started - 4 days"
+    }
+  },
+  {
+    "role": "Business Analyst",
+    "category": "Business",
+    "required_skills": ["SQL", "Communication", "Problem Solving", "Data Analysis", "Excel"],
+    "good_to_have": ["Power BI", "Tableau", "Python"],
+    "learn_path": {
+      "SQL": "SQLZoo free course - 1 week",
+      "Power BI": "Microsoft Learn Power BI - 1 week",
+      "Tableau": "Tableau Public tutorials - 1 week",
+      "Python": "Python basics - 2 weeks"
+    }
+  }
+]
