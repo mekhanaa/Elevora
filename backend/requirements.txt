@@ -2,3 +2,4 @@ flask
 pymupdf
 spacy
 flask-cors
+reportlab
