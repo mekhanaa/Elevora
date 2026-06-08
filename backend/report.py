@@ -59,10 +59,13 @@ def generate_report(data):
     story.append(Paragraph("Resume Intelligence & Career Path Report", sub_style))
     story.append(Spacer(1, 6))
 
-    # Candidate name from filename
-    filename = data.get("resume_filename", "Resume")
-    name = filename.replace(".pdf", "").replace("_", " ").replace("-", " ").title()
-    story.append(Paragraph({name}, sub_style))
+    # Candidate info
+    candidate_name = data.get("candidate_name", "Unknown")
+    candidate_email = data.get("candidate_email", "")
+
+    story.append(Paragraph(f"Candidate: {candidate_name}", sub_style))
+    if candidate_email:
+        story.append(Paragraph(f"Email: {candidate_email}", sub_style))
     story.append(Paragraph(
         f"Generated on {datetime.now().strftime('%d %B %Y, %I:%M %p')}",
         sub_style

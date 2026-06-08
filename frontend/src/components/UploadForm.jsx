@@ -33,14 +33,17 @@ export default function UploadForm({ onResult }) {
     <div className="flex flex-col gap-6">
       <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center">
         <p className="text-gray-500 mb-3 text-sm">Upload your resume (PDF)</p>
+        <label className="cursor-pointer inline-block bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm px-4 py-2 rounded-lg transition">
+          {resume ? resume.name : "Choose File"}
         <input
           type="file"
           accept=".pdf"
           onChange={e => setResume(e.target.files[0])}
-          className="text-sm"
+          className="hidden"
         />
+        </label>
         {resume && (
-          <p className="text-green-600 text-sm mt-2">✓ {resume.name}</p>
+          <p className="text-green-600 text-sm mt-2">{resume.name}</p>
         )}
       </div>
 
