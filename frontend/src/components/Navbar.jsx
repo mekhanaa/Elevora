@@ -5,7 +5,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-      <span className="text-lg font-bold text-gray-900">SkillMap</span>
+      <span className="text-lg font-bold text-gray-900">Elevora</span>
       <div className="flex gap-6">
         <button
           onClick={() => scrollTo('about')}
