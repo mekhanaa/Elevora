@@ -7,8 +7,8 @@ def compare_skills(resume_skills, jd_skills):
         jd_skills: List of skill dictionaries from extractor.py
 
     Returns:
-        Dictionary containing matched skills, missing skills,
-        and overall match score.
+        Dictionary containing matched skills,
+        missing skills, and overall match score.
     """
 
     resume_map = {
@@ -25,7 +25,6 @@ def compare_skills(resume_skills, jd_skills):
     missing = []
 
     for skill_key, display_name in jd_map.items():
-
         if skill_key in resume_map:
             matched.append(display_name)
         else:
