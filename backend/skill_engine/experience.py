@@ -36,12 +36,22 @@ def extract_experience(text):
 
 
     # --------------------------------------------------
-    # 2. Count internships
+    # 2. Detect internship positions
     # --------------------------------------------------
 
-    internship_count = len(
-        re.findall(r'\bintern(ship)?\b', text_lower)
+    internship_roles = re.findall(
+        r'([A-Za-z][A-Za-z &-]*?)\s+Intern\b',
+        text,
+        re.IGNORECASE
     )
+
+    # Remove duplicates
+    internship_roles = list(dict.fromkeys(
+    role.strip().title() + " Intern"
+    for role in internship_roles
+))
+
+    internship_count = len(internship_roles)
 
 
     # --------------------------------------------------
@@ -60,7 +70,6 @@ def extract_experience(text):
         "data analyst",
         "data scientist",
         "machine learning engineer",
-        "intern",
     ]
 
     detected_roles = []
@@ -68,6 +77,12 @@ def extract_experience(text):
     for role in possible_roles:
         if role in text_lower:
             detected_roles.append(role.title())
+
+    # Add actual internship roles
+    detected_roles.extend(internship_roles)
+
+    # Remove duplicates while preserving order
+    detected_roles = list(dict.fromkeys(detected_roles))
 
 
     return {
