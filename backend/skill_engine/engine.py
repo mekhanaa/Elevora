@@ -81,6 +81,7 @@ def analyze_resume(resume_text, jd_text):
         "matched_skills": comparison["matched_skills"],
 
         "missing_skills": comparison["missing_skills"],
+        "job_readiness_score": comparison["score"],
 
         "unknown_skills": [],
 
