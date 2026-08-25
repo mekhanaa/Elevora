@@ -148,9 +148,13 @@ def match_careers():
     )
 
     resume_set = set(
-        s.lower()
-        for s in resume_skills_raw
-    )
+    (
+        s["skill"]
+        if isinstance(s, dict)
+        else s
+    ).lower()
+    for s in resume_skills_raw
+)
 
     results = []
 

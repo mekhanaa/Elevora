@@ -11,8 +11,11 @@ export default function SkillTags({ skills, type }) {
         <p className="text-gray-400 text-sm">None found</p>
       ) : (
         skills.map((skill, i) => (
-          <span key={i} className={`text-xs px-3 py-1 rounded-full font-medium ${styles[type]}`}>
-            {skill}
+          <span
+            key={i}
+            className={`text-xs px-3 py-1 rounded-full font-medium ${styles[type]}`}
+          >
+            {typeof skill === "object" ? skill.skill : skill}
           </span>
         ))
       )}
