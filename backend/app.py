@@ -251,9 +251,13 @@ def compare_jobs():
         }), 400
 
     resume_set = set(
-        s.lower()
-        for s in resume_skills_raw
-    )
+    (
+        s["skill"]
+        if isinstance(s, dict)
+        else s
+    ).lower()
+    for s in resume_skills_raw
+)
 
     results = []
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
-export default function MultiJD({ resumeSkills }) {
+export default function MultiJD({ resumeSkills, resumeText }) {
   const [jds, setJds] = useState([
     { title: "Job 1", text: "" },
     { title: "Job 2", text: "" },
@@ -27,9 +27,10 @@ export default function MultiJD({ resumeSkills }) {
     setLoading(true)
     try {
       const res = await axios.post("http://localhost:5000/compare", {
-        resume_skills: resumeSkills,
-        jd_list: filled
-      })
+  resume_skills: resumeSkills,
+  resume_text_lower: resumeText.toLowerCase(),
+  jd_list: filled
+})
       setResults(res.data)
     } catch {
       setError("Something went wrong")

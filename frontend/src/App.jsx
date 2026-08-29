@@ -50,7 +50,11 @@ export default function App() {
                 </div>
                 <CareerCards careers={careers} />
                 <DownloadReport result={result} careers={careers} />
-                <MultiJD resumeSkills={result.resume_skills} result={result} />
+                <MultiJD
+  resumeSkills={result.resume_skills}
+  resumeText={resumeText}
+  result={result}
+/>
               </>
             )}
           </>
