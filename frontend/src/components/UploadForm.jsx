@@ -8,26 +8,40 @@ export default function UploadForm({ onResult }) {
   const [error, setError] = useState("")
 
   const handleSubmit = async () => {
-    if (!resume || !jdText.trim()) {
-      setError("Please upload a resume and paste a job description.")
-      return
-    }
-    setError("")
-    setLoading(true)
-
-    const formData = new FormData()
-    formData.append("resume", resume)
-    formData.append("jd_text", jdText)
-
-    try {
-      const res = await axios.post("http://localhost:5000/analyze", formData)
-      onResult(res.data)
-    } catch (err) {
-      setError("Something went wrong. Check if the backend is running.")
-    } finally {
-      setLoading(false)
-    }
+  if (!resume && !jdText.trim()) {
+    setError("Please upload your resume and paste a job description.")
+    return
   }
+
+  if (!resume) {
+    setError("Please upload your resume.")
+    return
+  }
+
+  if (!jdText.trim()) {
+    setError("Please paste a job description.")
+    return
+  }
+
+  setError("")
+  setLoading(true)
+
+  const formData = new FormData()
+  formData.append("resume", resume)
+  formData.append("jd_text", jdText)
+
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/analyze",
+      formData
+    )
+    onResult(res.data)
+  } catch (err) {
+    setError("Something went wrong. Check if the backend is running.")
+  } finally {
+    setLoading(false)
+  }
+}
 
   return (
     <div className="flex flex-col gap-6">
