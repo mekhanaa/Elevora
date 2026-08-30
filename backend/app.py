@@ -17,11 +17,17 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 init_db()
 
+
 @app.route("/")
 def home():
     return jsonify({
         "message": "Elevora API running"
     })
+
+
+# =========================================================
+# RESUME + JD ANALYSIS
+# =========================================================
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -72,6 +78,7 @@ def analyze():
         else 0
     )
 
+    # Save analysis to database
     conn = get_db()
 
     conn.execute(
@@ -133,6 +140,11 @@ def analyze():
             resume_text
     })
 
+
+# =========================================================
+# CAREER PATH MATCHING
+# =========================================================
+
 with open("careers.json", "r") as f:
     CAREERS = json.load(f)
 
@@ -148,13 +160,13 @@ def match_careers():
     )
 
     resume_set = set(
-    (
-        s["skill"]
-        if isinstance(s, dict)
-        else s
-    ).lower()
-    for s in resume_skills_raw
-)
+        (
+            s["skill"]
+            if isinstance(s, dict)
+            else s
+        ).lower()
+        for s in resume_skills_raw
+    )
 
     results = []
 
@@ -228,6 +240,10 @@ def match_careers():
     return jsonify(results)
 
 
+# =========================================================
+# MULTI-JD COMPARATOR
+# =========================================================
+
 @app.route("/compare", methods=["POST"])
 def compare_jobs():
 
@@ -243,6 +259,7 @@ def compare_jobs():
         []
     )
 
+    # At least 2 JDs required
     if len(jd_list) < 2:
 
         return jsonify({
@@ -250,21 +267,31 @@ def compare_jobs():
                 "Paste at least 2 job descriptions"
         }), 400
 
+    # Convert resume skills to lowercase set
     resume_set = set(
-    (
-        s["skill"]
-        if isinstance(s, dict)
-        else s
+        (
+            s["skill"]
+            if isinstance(s, dict)
+            else s
+        ).lower()
+        for s in resume_skills_raw
+    )
+
+    # Resume text for ATS comparison
+    resume_text_lower = data.get(
+        "resume_text_lower",
+        ""
     ).lower()
-    for s in resume_skills_raw
-)
 
     results = []
 
+    # Process every job description
     for jd in jd_list:
 
-        # Extract JD skills using
-        # the new skill engine
+        # ---------------------------------------------
+        # Extract skills from this JD
+        # ---------------------------------------------
+
         jd_result = analyze_resume(
             "",
             jd["text"]
@@ -279,10 +306,15 @@ def compare_jobs():
             for item in jd_skills
         ]
 
+        # Unique JD skills
         jd_set = set(
             s.lower()
             for s in jd_skill_names
         )
+
+        # ---------------------------------------------
+        # Matched skills
+        # ---------------------------------------------
 
         matched = [
             s
@@ -290,11 +322,19 @@ def compare_jobs():
             if s.lower() in resume_set
         ]
 
+        # ---------------------------------------------
+        # Missing skills
+        # ---------------------------------------------
+
         missing = [
             s
             for s in jd_skill_names
             if s.lower() not in resume_set
         ]
+
+        # ---------------------------------------------
+        # Match score
+        # ---------------------------------------------
 
         score = (
             round(
@@ -305,33 +345,29 @@ def compare_jobs():
             else 0
         )
 
-        # ----------------------------------
-        # ATS keyword density
-        # ----------------------------------
+        # ---------------------------------------------
+        # ATS KEYWORD DENSITY
+        # ---------------------------------------------
 
         ats = []
 
-        resume_text_lower = data.get(
-            "resume_text_lower",
-            ""
-        )
+        jd_text_lower = jd["text"].lower()
 
         for skill in jd_skill_names:
 
-            count_in_jd = len([
-                w
-                for w in jd["text"]
-                .lower()
-                .split()
-                if skill.lower() in w
-            ])
+            skill_lower = skill.lower()
 
-            count_in_resume = (
-                resume_text_lower.count(
-                    skill.lower()
-                )
+            # Count occurrences in JD
+            count_in_jd = jd_text_lower.count(
+                skill_lower
             )
 
+            # Count occurrences in resume
+            count_in_resume = resume_text_lower.count(
+                skill_lower
+            )
+
+            # Determine ATS status
             if count_in_resume >= count_in_jd:
                 status = "good"
 
@@ -356,6 +392,10 @@ def compare_jobs():
                     status
             })
 
+        # ---------------------------------------------
+        # Store result for this JD
+        # ---------------------------------------------
+
         results.append({
 
             "title":
@@ -374,12 +414,18 @@ def compare_jobs():
                 ats
         })
 
+    # Highest score first
     results.sort(
         key=lambda x: x["score"],
         reverse=True
     )
 
     return jsonify(results)
+
+
+# =========================================================
+# PDF REPORT
+# =========================================================
 
 @app.route("/report", methods=["POST"])
 def download_report():
@@ -398,6 +444,11 @@ def download_report():
 
         download_name="Elevora_Report.pdf"
     )
+
+
+# =========================================================
+# RUN SERVER
+# =========================================================
 
 if __name__ == "__main__":
 
