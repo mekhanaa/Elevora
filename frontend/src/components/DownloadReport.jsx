@@ -35,7 +35,10 @@ export default function DownloadReport({ result, careers }) {
       const url = window.URL.createObjectURL(new Blob([res.data]))
       const link = document.createElement("a")
       link.href = url
-      link.setAttribute("download", `Elevora_${name.replace(" ", "_")}_Report.pdf`)
+      link.setAttribute(
+  "download",
+  `Elevora_${name.trim().replace(/\s+/g, "_").replace(/[^\w-]/g, "")}_Report.pdf`
+)
       document.body.appendChild(link)
       link.click()
       link.remove()
