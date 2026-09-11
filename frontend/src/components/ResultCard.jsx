@@ -1,4 +1,4 @@
-import ScoreGauge from "./ScoreGauge"
+﻿import ScoreGauge from "./ScoreGauge"
 import SkillTags from "./SkillTags"
 
 export default function ResultCard({ result }) {
@@ -29,3 +29,4 @@ export default function ResultCard({ result }) {
     </div>
   )
 }
+
