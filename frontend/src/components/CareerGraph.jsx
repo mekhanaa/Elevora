@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+﻿import { useEffect, useRef } from "react"
 import * as d3 from "d3"
 
 export default function CareerGraph({ resumeSkills, careers }) {
@@ -102,10 +102,10 @@ export default function CareerGraph({ resumeSkills, careers }) {
       </h3>
       <svg ref={svgRef} />
       <div className="flex gap-4 mt-3 text-xs text-gray-500">
-        <span><span className="text-green-500">●</span> 70%+ Strong</span>
-        <span><span className="text-yellow-500">●</span> 40–70% Partial</span>
-        <span><span className="text-gray-400">●</span> Below 40%</span>
-      </div>
+  <span><span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-1"></span>70%+ Strong</span>
+  <span><span className="inline-block w-2 h-2 rounded-full bg-yellow-500 mr-1"></span>40–70% Partial</span>
+  <span><span className="inline-block w-2 h-2 rounded-full bg-gray-400 mr-1"></span>Below 40%</span>
+</div>
     </div>
   )
 }
