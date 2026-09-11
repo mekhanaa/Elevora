@@ -19,12 +19,22 @@ export default function UploadForm({ onResult }) {
   }
 
   if (!jdText.trim()) {
-    setError("Please paste a job description.")
-    return
-  }
+  setError("Please paste a job description.")
+  return
+}
 
-  setError("")
-  setLoading(true)
+if (resume.type !== "application/pdf") {
+  setError("Please upload a PDF file.")
+  return
+}
+
+if (resume.size > 5 * 1024 * 1024) {
+  setError("Resume must be under 5MB.")
+  return
+}
+
+setError("")
+setLoading(true)
 
   const formData = new FormData()
   formData.append("resume", resume)
