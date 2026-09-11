@@ -31,7 +31,8 @@ def build_skill_set():
             skills[normalized] = {
                 "display": skill,
                 "category": category_name,
-                "confidence": 1.0
+                "confidence": 1.0,
+                "is_alias": False
             }
 
             # Store aliases
@@ -41,7 +42,8 @@ def build_skill_set():
                 skills[alias.lower().strip()] = {
                     "display": skill,
                     "category": category_name,
-                    "confidence": 0.95
+                    "confidence": 0.95,
+                    "is_alias": True
                 }
 
     return skills
@@ -74,7 +76,34 @@ def extract_skills(text):
 
     for skill_key, skill_data in SKILL_SET.items():
 
-        pattern = r"\b" + re.escape(skill_key) + r"\b"
+        # Skills containing special characters
+        # Example: C++, Node.js
+        if re.search(r"[^a-z0-9]", skill_key):
+            pattern = (
+                r"(?<![a-z0-9])"
+                + re.escape(skill_key)
+                + r"(?![a-z0-9])"
+            )
+
+        # Short aliases such as:
+        # js, py
+        # The dot is treated as part of another technology name,
+        # so "js" does not match the ".js" inside "Node.js".
+        elif skill_data["is_alias"] and len(skill_key) <= 2:
+            pattern = (
+                r"(?<![a-z0-9.])"
+                + re.escape(skill_key)
+                + r"(?![a-z0-9.])"
+            )
+
+        # Normal skills such as:
+        # Python, Docker, Flask, SQL
+        else:
+            pattern = (
+                r"(?<![a-z0-9+#])"
+                + re.escape(skill_key)
+                + r"(?![a-z0-9+#])"
+            )
 
         if re.search(pattern, text_lower):
 
@@ -88,7 +117,7 @@ def extract_skills(text):
                     "confidence": skill_data["confidence"]
                 }
 
-            # If exact skill name is found, prefer confidence 1.0
+            # Prefer the exact skill name over an alias
             elif skill_data["confidence"] > found[skill_name]["confidence"]:
                 found[skill_name]["confidence"] = skill_data["confidence"]
 
