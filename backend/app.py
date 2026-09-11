@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 import os
 import json
 
@@ -48,14 +49,26 @@ def analyze():
             "error": "Job description is empty"
         }), 400
 
+    # Secure uploaded filename
+    safe_filename = secure_filename(
+        resume_file.filename
+    )
+
+    if not safe_filename:
+        return jsonify({
+            "error": "Invalid resume filename"
+        }), 400
+
     file_path = os.path.join(
         UPLOAD_FOLDER,
-        resume_file.filename
+        safe_filename
     )
 
     resume_file.save(file_path)
 
-    resume_text = extract_text_from_pdf(file_path)
+    resume_text = extract_text_from_pdf(
+        file_path
+    )
 
     result = analyze_resume(
         resume_text,
@@ -94,7 +107,7 @@ def analyze():
         VALUES (?, ?, ?, ?, ?)
         """,
         (
-            resume_file.filename,
+            safe_filename,
             jd_text,
             score,
             json.dumps(matched),
@@ -134,7 +147,7 @@ def analyze():
         ],
 
         "resume_filename":
-            resume_file.filename,
+            safe_filename,
 
         "resume_text":
             resume_text
@@ -444,11 +457,6 @@ def download_report():
 
         download_name="Elevora_Report.pdf"
     )
-
-
-# =========================================================
-# RUN SERVER
-# =========================================================
 
 if __name__ == "__main__":
 
