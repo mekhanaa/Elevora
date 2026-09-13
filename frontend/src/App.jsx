@@ -117,11 +117,11 @@ export default function App() {
                 Have a complaint, suggestion, or found a bug? Reach out directly:
               </p>
               <a
-                href="mailto:vj3.mekhana@gmail.com?subject=Elevora Feedback"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-lg transition"
-              >
-                vj3.mekhana@gmail.com
-              </a>
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=vj3.mekhana@gmail.com&su=Elevora%20Feedback"
+  className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-lg transition"
+>
+  vj3.mekhana@gmail.com
+</a>
             </div>
 
           </div>
