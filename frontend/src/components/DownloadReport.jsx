@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import API_URL from "../api"
 
 export default function DownloadReport({ result, careers }) {
   const [showModal, setShowModal] = useState(false)
@@ -18,7 +19,7 @@ export default function DownloadReport({ result, careers }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/report",
+        `${API_URL}/report`,
         {
           match_score: result.match_score,
           matched_skills: result.matched_skills,

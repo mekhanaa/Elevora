@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import API_URL from "./api"
 import UploadForm from "./components/UploadForm"
 import ResultCard from "./components/ResultCard"
 import CareerGraph from "./components/CareerGraph"
@@ -16,7 +17,7 @@ export default function App() {
   const handleResult = async (data) => {
     setResult(data)
     setResumeText(data.resume_text || "")
-    const res = await axios.post("http://localhost:5000/careers", {
+    const res = await axios.post(`${API_URL}/careers`, {
       resume_skills: data.resume_skills
     })
     setCareers(res.data)

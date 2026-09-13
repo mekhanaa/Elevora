@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import API_URL from "../api"
 
 export default function MultiJD({ resumeSkills, resumeText }) {
   const [jds, setJds] = useState([
@@ -26,7 +27,7 @@ export default function MultiJD({ resumeSkills, resumeText }) {
     setError("")
     setLoading(true)
     try {
-      const res = await axios.post("http://localhost:5000/compare", {
+      const res = await axios.post(`${API_URL}/compare`, {
   resume_skills: resumeSkills,
   resume_text_lower: resumeText.toLowerCase(),
   jd_list: filled

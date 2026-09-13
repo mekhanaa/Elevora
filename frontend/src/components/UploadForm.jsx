@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import API_URL from "../api"
 
 export default function UploadForm({ onResult }) {
   const [resume, setResume] = useState(null)
@@ -8,66 +9,74 @@ export default function UploadForm({ onResult }) {
   const [error, setError] = useState("")
 
   const handleSubmit = async () => {
-  if (!resume && !jdText.trim()) {
-    setError("Please upload your resume and paste a job description.")
-    return
+    if (!resume && !jdText.trim()) {
+      setError("Please upload your resume and paste a job description.")
+      return
+    }
+
+    if (!resume) {
+      setError("Please upload your resume.")
+      return
+    }
+
+    if (!jdText.trim()) {
+      setError("Please paste a job description.")
+      return
+    }
+
+    if (resume.type !== "application/pdf") {
+      setError("Please upload a PDF file.")
+      return
+    }
+
+    if (resume.size > 5 * 1024 * 1024) {
+      setError("Resume must be under 5MB.")
+      return
+    }
+
+    setError("")
+    setLoading(true)
+
+    const formData = new FormData()
+    formData.append("resume", resume)
+    formData.append("jd_text", jdText)
+
+    try {
+      const res = await axios.post(
+        `${API_URL}/analyze`,
+        formData
+      )
+
+      onResult(res.data)
+    } catch (err) {
+      setError("Something went wrong. Check if the backend is running.")
+    } finally {
+      setLoading(false)
+    }
   }
-
-  if (!resume) {
-    setError("Please upload your resume.")
-    return
-  }
-
-  if (!jdText.trim()) {
-  setError("Please paste a job description.")
-  return
-}
-
-if (resume.type !== "application/pdf") {
-  setError("Please upload a PDF file.")
-  return
-}
-
-if (resume.size > 5 * 1024 * 1024) {
-  setError("Resume must be under 5MB.")
-  return
-}
-
-setError("")
-setLoading(true)
-
-  const formData = new FormData()
-  formData.append("resume", resume)
-  formData.append("jd_text", jdText)
-
-  try {
-    const res = await axios.post(
-      "http://localhost:5000/analyze",
-      formData
-    )
-    onResult(res.data)
-  } catch (err) {
-    setError("Something went wrong. Check if the backend is running.")
-  } finally {
-    setLoading(false)
-  }
-}
 
   return (
     <div className="flex flex-col gap-6">
       <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center">
-        <p className="text-gray-500 mb-3 text-sm">Upload your resume (PDF)</p>
+        <p className="text-gray-500 mb-3 text-sm">
+          Upload your resume (PDF)
+        </p>
+
         <label className="cursor-pointer inline-block bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm px-4 py-2 rounded-lg transition">
           {resume ? resume.name : "Choose File"}
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={e => setResume(e.target.files[0])}
-          className="hidden"
-        />
+
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={e => setResume(e.target.files[0])}
+            className="hidden"
+          />
         </label>
+
         {resume && (
-          <p className="text-green-600 text-sm mt-2">{resume.name}</p>
+          <p className="text-green-600 text-sm mt-2">
+            {resume.name}
+          </p>
         )}
       </div>
 
@@ -79,7 +88,11 @@ setLoading(true)
         className="border border-gray-300 rounded-xl p-4 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && (
+        <p className="text-red-500 text-sm">
+          {error}
+        </p>
+      )}
 
       <button
         onClick={handleSubmit}
